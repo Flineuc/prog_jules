@@ -1,6 +1,9 @@
 #include <iostream>
+#include "play_guess_the_number.hpp"
 
 int main()
 {
-    std::cout << "Hello World\n";
+    std::cout << "JOUONS !\n";
+    play_guess_the_number();
+    return 0;
 }
