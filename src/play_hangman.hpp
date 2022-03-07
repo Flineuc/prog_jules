@@ -2,28 +2,26 @@
 #include <iostream>
 #include <random>
 
-const std::string *pick_a_random_word() {
-  static constexpr std::array words = {
-      "flavos", "sully", "solem", "yayelle", "theo", "tanguos", "jordy", "lisa",
-  };
-  std::string word;
-  return word = words(rand(0, 7));
-}
-
 int rand(int min, int max) {
   static std::default_random_engine generator{std::random_device{}()};
   std::uniform_int_distribution<int> distribution{min, max};
   return distribution(generator);
 }
 
-void show_nb_lives(int nb_lives) {
-  if (nb_lives == 0)
-    std::cout << "Dsl, t'es mort !" << std::endl;
-  else
-    std::cout << "Il te reste :" << nb_lives << std::endl;
+const std::string pick_a_random_word() {
+  static std::array<std::string, 8> words = {
+      "flavos", "sully", "solem", "yayelle", "theo", "tanguos", "jordy", "lisa",
+  };
+  std::string word;
+  int index = rand(0, 7);
+  return word = words[index];
 }
 
-void reduce_nb_lives(int nb_lives) { return nb_lives - 1; }
+void show_nb_lives(int nb_lives) {
+  std::cout << "\nTu as " << nb_lives << " vies." << std::endl;
+}
+
+void reduce_nb_lives(int &nb_lives) { nb_lives--; }
 
 char get_letter_from_user() {
   char letter;
@@ -31,42 +29,95 @@ char get_letter_from_user() {
   return letter;
 }
 
-void test_letter_(char letter, std::string word) {}
+bool word_contains(char letter, std::string word) {
+  bool contains = false;
+  size_t i = 0;
+  while (i < word.size()) {
+    if (word[i] == letter)
+      contains = true;
+    i++;
+  }
+  return contains;
+}
 
-bool word_contains(char letter, std::string_view word) {
-  // TODO
+void show_word_to_guess_with_missing_letters(
+    std::string word, std::vector<bool> letters_guessed) {
+  size_t i = 0;
+  std::cout << "Il ressemble a ça : ";
+  while (i < word.size()) {
+    if (letters_guessed[i])
+      std::cout << word[i];
+    else
+      std::cout << "_ ";
+    i++;
+  }
+  std::cout << std::endl;
+}
+
+void mark_as_guessed(char guessed_letter, std::vector<bool> &letters_guessed,
+                     std::string word) {
+  size_t i = 0;
+  while (i < word.size()) {
+    if (word[i] == guessed_letter)
+      letters_guessed[i] = true;
+    i++;
+  }
+}
+
+bool player_is_alive(int nb_lives) {
+  if (nb_lives > 0)
+    return true;
+  else
+    return false;
+}
+
+bool player_has_won(std::vector<bool> letters_guessed) {
+  bool winner = false;
+  size_t i = 0;
+  while (i < letters_guessed.size()) {
+    if (letters_guessed[i])
+      winner = true;
+    else
+      winner = false;
+    i++;
+  }
+  return winner;
+}
+
+void display_final_message(int nb_lives, std::vector<bool> letters_guessed,
+                           std::string word_to_guess) {
+  if (player_has_won(letters_guessed)) {
+    std::cout << "\nBravo tu as trouvé, c'était bien le mot : " << word_to_guess
+              << " !" << std::endl;
+  }
+  if (!player_is_alive(nb_lives)) {
+    std::cout << "\nDeso, t'es mort, tu aurais du trouver le mot : "
+              << word_to_guess << " !" << std::endl;
+  }
 }
 
 void play_hangman() {
-
-  pick_a_word_to_guess();
-  while (player_is_alive() && !player_has_won()) {
-    show_number_of_lives();
-    show_word_to_guess_with_missing_letters();
-    const auto guess = get_char_from_user();
-    if (word_to_guess_contains(guess)) {
-      mark_as_guessed(guess);
-    } else {
-      remove_one_life();
-    }
+  std::string word_to_guess = pick_a_random_word();
+  std::vector<bool> letters_guessed;
+  for (size_t i = 0; i < word_to_guess.size(); i++) {
+    letters_guessed.push_back(false);
   }
-  if (player_has_won()) {
-    show_congrats_message();
-  } else {
-    show_defeat_message();
-  }
+  int nb_lives = 8;
 
   std::cout << "J'ai choisi un mot. Trouve le !" << std::endl;
-  std::cout << "Essaie :\n";
-  int valueTested = get_int_from_user();
-  while (value != valueTested) {
-    if (valueTested < value)
-      std::cout << "Trop petit !";
-    else
-      std::cout << "Trop grand !";
-    std::cout << " Ressaie :\n";
-    valueTested = get_int_from_user();
+
+  while (player_is_alive(nb_lives) && !player_has_won(letters_guessed)) {
+    show_nb_lives(nb_lives);
+    show_word_to_guess_with_missing_letters(word_to_guess, letters_guessed);
+    std::cout << "Essaie avec une lettre :\n";
+    const auto test_letter = get_letter_from_user();
+    if (word_contains(test_letter, word_to_guess)) {
+      mark_as_guessed(test_letter, letters_guessed, word_to_guess);
+      std::cout << "BG, Cette lettre est dedans !\n";
+    } else {
+      std::cout << "Aie, elle y est pas... Tu perds une vie !\n";
+      reduce_nb_lives(nb_lives);
+    }
   }
-  std::cout << "Bravo, tu as trouvé ! C'était bien le nombre " << value << " !"
-            << std::endl;
+  display_final_message(nb_lives, letters_guessed, word_to_guess);
 }

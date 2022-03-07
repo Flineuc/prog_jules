@@ -1,9 +1,7 @@
+#include "play_hangman.hpp"
 #include <iostream>
-#include "play_guess_the_number.hpp"
 
-int main()
-{
-    std::cout << "JOUONS !\n";
-    play_guess_the_number();
-    return 0;
+int main() {
+  play_hangman();
+  return 0;
 }
