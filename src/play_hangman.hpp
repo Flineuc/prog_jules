@@ -2,11 +2,12 @@
 #include <iostream>
 #include <random>
 
+/*
 int rand(int min, int max) {
   static std::default_random_engine generator{std::random_device{}()};
   std::uniform_int_distribution<int> distribution{min, max};
   return distribution(generator);
-}
+}*/
 
 const std::string pick_a_random_word() {
   static std::array<std::string, 8> words = {
