@@ -3,12 +3,12 @@
 #include <iostream>
 
 void show_the_list_of_commands() {
-  std::cout << "\nSALUT TOI, TU VEUX JOUER A QUOI ?\n 1: JEU Guess the"
-               "Number \n 2: JEU Hangman\n q: Quitter \n ";
+  std::cout << "\nSALUT TOI, TU VEUX JOUER A QUOI ?\n 1: JEU Trouve le "
+               "nombre \n 2: JEU du Pendu\n q: Quitter \n ";
 }
 
-const auto get_input_from_user<char>() {
-  std::cout << "ALORS ?";
+char get_char_from_user() {
+  std::cout << "ALORS ? ";
   char command;
   std::cin >> command;
   return command;
@@ -18,7 +18,7 @@ int main() {
   bool quit = false;
   while (!quit) {
     show_the_list_of_commands();
-    const auto command = get_input_from_user<char>();
+    const auto command = get_char_from_user();
     switch (command) {
     case '1':
       play_guess_the_number();
