@@ -2,6 +2,8 @@
 #include "random.hpp"
 #include <array>
 #include <iostream>
+#include <string>
+#include <string_view>
 
 const std::string pick_a_random_word() {
   static std::array words = {
@@ -25,14 +27,10 @@ char get_letter_from_user() {
 }
 
 bool word_contains(char letter, std::string word) {
-  bool contains = false;
-  size_t i = 0;
-  while (i < word.size()) {
-    if (word[i] == letter)
-      contains = true;
-    i++;
-  }
-  return contains;
+  if (word.find(letter) != std::string::npos)
+    return true;
+  else
+    return false;
 }
 
 void show_word_to_guess_with_missing_letters(
