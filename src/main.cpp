@@ -42,8 +42,9 @@ int main() {
 int main() {
   auto ctx = p6::Context{{1280, 720, "Hello p6"}};
   float n = 3;
+  float ratio = p6::Canvas::aspect_ratio();
   ctx.background({0.5f, 0.3f, 0.8f});
-  for (float j = 1 / n; j < 1; j = j + 1 / n) {
+  for (float j = ratio / n; j < ratio; j = j + ratio / n) {
     for (float i = 1 / n; i < 1; i = i + 1 / n) {
       ctx.stroke = {1, 1, 1, 1};
       ctx.square(p6::Center(j, i), p6::Radius{1 / n});
