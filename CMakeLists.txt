@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.20)
 
 project(SimpleCpp)
 add_executable(${PROJECT_NAME})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+add_subdirectory(p6)
+target_link_libraries(${PROJECT_NAME} PRIVATE p6::p6)
 
 # Enable many good warnings
 if (MSVC)
@@ -19,3 +22,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS src/*)
 target_sources(${PROJECT_NAME} PRIVATE ${MY_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE src)
+
+

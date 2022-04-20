@@ -10,7 +10,7 @@ const std::string pick_a_random_word() {
       "flavos", "sully", "solem", "yayelle", "theo", "tanguos", "jordy", "lisa",
   };
   std::string word;
-  int index = rand(0, words.size() - 1);
+  int index = rand<int>(0, words.size() - 1);
   return word = words[index];
 }
 

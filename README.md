@@ -22,3 +22,8 @@ Lecon 2:
 - Enums	
 - Split problems in small pieces	
 - Composition over Inheritance
+
+Lecon 3:
+- Vector
+- Documentation
+- Use librairie
