@@ -40,18 +40,53 @@ int main() {
 }*/
 
 int main() {
-  auto ctx = p6::Context{{1280, 720, "Hello p6"}};
+  auto ctx = p6::Context{{720, 720, "Hello p6"}};
   float n = 3;
-  float ratio = p6::Canvas::aspect_ratio();
-  ctx.background({0.5f, 0.3f, 0.8f});
-  for (float j = ratio / n; j < ratio; j = j + ratio / n) {
-    for (float i = 1 / n; i < 1; i = i + 1 / n) {
-      ctx.stroke = {1, 1, 1, 1};
-      ctx.square(p6::Center(j, i), p6::Radius{1 / n});
-    }
-  }
-  // glm::vec2 mouse()
-  // ctx.square(p6::Center{}, p6::Radius{0.1f});
-  // ctx.fill = {1, 0, 0, 0.5};
-  ctx.start();
-}
+  ctx.mouse_pressed =
+      [&](p6::MouseButton) { /*
+if (ctx.mouse().x > -(1 / n) && ctx.mouse().x < (1 / n) &&
+ctx.mouse().y > -1 && ctx.mouse().y < -(1 / n))
+std::cout << "milieu bas\n";
+if (ctx.mouse().x > -1 && ctx.mouse().x < -(1 / n) && ctx.mouse().y > -1 &&
+ctx.mouse().y < -(1 / n))
+std::cout << "gauche bas\n";
+if (ctx.mouse().x > (1 / n) && ctx.mouse().x < 1 && ctx.mouse().y > -1 &&
+ctx.mouse().y < -(1 / n))
+std::cout << "droit bas\n";
+
+if (ctx.mouse().x > -(1 / n) && ctx.mouse().x < (1 / n) &&
+ctx.mouse().y > -(1 / n) && ctx.mouse().y < (1 / n))
+std::cout << "milieu milieu\n";
+if (ctx.mouse().x > -1 && ctx.mouse().x < -(1 / n) &&
+ctx.mouse().y > -(1 / n) && ctx.mouse().y < (1 / n))
+std::cout << "gauche milieu\n";
+if (ctx.mouse().x > (1 / n) && ctx.mouse().x < 1 &&
+ctx.mouse().y > -(1 / n) && ctx.mouse().y < (1 / n))
+std::cout << "droit milieu\n";
+
+if (ctx.mouse().x > -(1 / n) && ctx.mouse().x < (1 / n) &&
+ctx.mouse().y > (1 / n) && ctx.mouse().y < 1)
+std::cout << "milieu haut \n";
+if (ctx.mouse().x > -1 && ctx.mouse().x < -(1 / n) &&
+ctx.mouse().y > (1 / n) && ctx.mouse().y < 1)
+std::cout << "gauche haut\n";
+if (ctx.mouse().x > (1 / n) && ctx.mouse().x < 1 &&
+ctx.mouse().y > (1 / n) && ctx.mouse().y < 1)
+std::cout << "droit haut\n";
+};*/
+                             ctx.background(
+                                 {0.5f, 0.3f, 0.8f}); // std::cout << size;
+                             const auto square_radius = 1 / n;
+                             ctx.update = [&]() {
+                               for (float i = -(1.0f); i <= (1.0f);
+                                    i = i + (2.0f / n)) {
+                                 for (float j = -(1.0f); j <= (1.0f);
+                                      j = j + (2.0f / n)) {
+                                   ctx.fill = {0.5f, 1.0f, 0.5f, 0.5f};
+                                   ctx.square(p6::TopLeftCorner{i, j},
+                                              p6::Radius{square_radius});
+                                 }
+                               }
+                             };
+                             ctx.start();
+      }
