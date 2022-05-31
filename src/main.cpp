@@ -1,3 +1,4 @@
+#include "joueur.hpp"
 #include "play_guess_the_number.hpp"
 #include "play_hangman.hpp"
 #include "play_noughts_and_crosses.hpp"
@@ -42,51 +43,38 @@ int main() {
 int main() {
   auto ctx = p6::Context{{720, 720, "Hello p6"}};
   float n = 3;
-  ctx.mouse_pressed =
-      [&](p6::MouseButton) { /*
-if (ctx.mouse().x > -(1 / n) && ctx.mouse().x < (1 / n) &&
-ctx.mouse().y > -1 && ctx.mouse().y < -(1 / n))
-std::cout << "milieu bas\n";
-if (ctx.mouse().x > -1 && ctx.mouse().x < -(1 / n) && ctx.mouse().y > -1 &&
-ctx.mouse().y < -(1 / n))
-std::cout << "gauche bas\n";
-if (ctx.mouse().x > (1 / n) && ctx.mouse().x < 1 && ctx.mouse().y > -1 &&
-ctx.mouse().y < -(1 / n))
-std::cout << "droit bas\n";
+  Joueur J1;
+  Joueur J2;
+  J1.setSigne('x');
+  J2.setSigne('o');
+  Joueur current = J1;
+  board tab;
 
-if (ctx.mouse().x > -(1 / n) && ctx.mouse().x < (1 / n) &&
-ctx.mouse().y > -(1 / n) && ctx.mouse().y < (1 / n))
-std::cout << "milieu milieu\n";
-if (ctx.mouse().x > -1 && ctx.mouse().x < -(1 / n) &&
-ctx.mouse().y > -(1 / n) && ctx.mouse().y < (1 / n))
-std::cout << "gauche milieu\n";
-if (ctx.mouse().x > (1 / n) && ctx.mouse().x < 1 &&
-ctx.mouse().y > -(1 / n) && ctx.mouse().y < (1 / n))
-std::cout << "droit milieu\n";
+  // for (int i = 0; i < 5; i++) {
+  ctx.mouse_pressed = [&](p6::MouseButton) {
+    std::vector<double> posMouse;
+    posMouse.push_back(ctx.mouse().x);
+    posMouse.push_back(ctx.mouse().y);
+    // cellule cell;
+    current.getPosition(posMouse);
+    // current.joue(posMouse, tab);
+    // std::cout << tab.cellules[0].x << " et " << tab.cellules[0].y <<
+    // std::endl;
+    if (current.getSigne() == 'x')
+      current = J2;
+    else
+      current = J1;
+  };
 
-if (ctx.mouse().x > -(1 / n) && ctx.mouse().x < (1 / n) &&
-ctx.mouse().y > (1 / n) && ctx.mouse().y < 1)
-std::cout << "milieu haut \n";
-if (ctx.mouse().x > -1 && ctx.mouse().x < -(1 / n) &&
-ctx.mouse().y > (1 / n) && ctx.mouse().y < 1)
-std::cout << "gauche haut\n";
-if (ctx.mouse().x > (1 / n) && ctx.mouse().x < 1 &&
-ctx.mouse().y > (1 / n) && ctx.mouse().y < 1)
-std::cout << "droit haut\n";
-};*/
-                             ctx.background(
-                                 {0.5f, 0.3f, 0.8f}); // std::cout << size;
-                             const auto square_radius = 1 / n;
-                             ctx.update = [&]() {
-                               for (float i = -(1.0f); i <= (1.0f);
-                                    i = i + (2.0f / n)) {
-                                 for (float j = -(1.0f); j <= (1.0f);
-                                      j = j + (2.0f / n)) {
-                                   ctx.fill = {0.5f, 1.0f, 0.5f, 0.5f};
-                                   ctx.square(p6::TopLeftCorner{i, j},
-                                              p6::Radius{square_radius});
-                                 }
-                               }
-                             };
-                             ctx.start();
+  ctx.background({0.5f, 0.3f, 0.8f}); // std::cout << size;
+  const auto square_radius = 1 / n;
+  ctx.update = [&]() {
+    for (float i = -(1.0f); i <= (1.0f); i = i + (2.0f / n)) {
+      for (float j = -(1.0f); j <= (1.0f); j = j + (2.0f / n)) {
+        ctx.fill = {0.5f, 1.0f, 0.5f, 0.5f};
+        ctx.square(p6::TopLeftCorner{i, j}, p6::Radius{square_radius});
       }
+    }
+  };
+  ctx.start();
+}

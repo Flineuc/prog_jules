@@ -1,5 +1,4 @@
 #include "joueur.hpp"
-#include "random.hpp"
 #include <iostream>
 #include <p6/p6.h>
 #include <string>
@@ -8,84 +7,73 @@
 
 void Joueur::setSigne(char lettre) { this->signe = lettre; }
 
-char Joueur::getSigne() { return signe; }
+char Joueur::getSigne() { return this->signe; }
 
-std::vector<double> testPosition(std::vector<double> MousePos) {
-  std::vector<double> cellule;
+void Joueur::getPosition(std::vector<double> MousePos) {
+  cellule cellule;
   float n = 3;
   if (MousePos[0] > -(1 / n) && MousePos[0] < (1 / n) && MousePos[1] > -1 &&
       MousePos[1] < -(1 / n)) {
-    cellule.push_back(2);
-    cellule.push_back(1);
-    return cellule;
+    cellule.x = 2;
+    cellule.y = 1;
   }
   //"milieu bas\n";
   if (MousePos[0] > -1 && MousePos[0] < -(1 / n) && MousePos[1] > -1 &&
       MousePos[1] < -(1 / n)) {
-    cellule.push_back(2);
-    cellule.push_back(0);
-    return cellule;
+    cellule.x = 2;
+    cellule.y = 0;
   }
   //"gauche bas\n";
   if (MousePos[0] > (1 / n) && MousePos[0] < 1 && MousePos[1] > -1 &&
       MousePos[1] < -(1 / n)) {
-    cellule.push_back(2);
-    cellule.push_back(2);
-    return cellule;
+    cellule.x = 2;
+    cellule.y = 2;
   }
   //"droit bas\n";
-
   if (MousePos[0] > -(1 / n) && MousePos[0] < (1 / n) &&
       MousePos[1] > -(1 / n) && MousePos[1] < (1 / n)) {
-    cellule.push_back(1);
-    cellule.push_back(1);
-    return cellule;
+    cellule.x = 1;
+    cellule.y = 1;
   }
   //"milieu milieu\n";
   if (MousePos[0] > -1 && MousePos[0] < -(1 / n) && MousePos[1] > -(1 / n) &&
       MousePos[1] < (1 / n)) {
-    cellule.push_back(1);
-    cellule.push_back(0);
-    return cellule;
+    cellule.x = 1;
+    cellule.y = 0;
   }
   //"gauche milieu\n";
   if (MousePos[0] > (1 / n) && MousePos[0] < 1 && MousePos[1] > -(1 / n) &&
       MousePos[1] < (1 / n)) {
-    cellule.push_back(1);
-    cellule.push_back(2);
-    return cellule;
+    cellule.x = 1;
+    cellule.y = 0;
   }
   //"droit milieu\n";
-
   if (MousePos[0] > -(1 / n) && MousePos[0] < (1 / n) &&
       MousePos[1] > (1 / n) && MousePos[1] < 1) {
-    cellule.push_back(0);
-    cellule.push_back(1);
-    return cellule;
+    cellule.x = 0;
+    cellule.y = 1;
   }
   //"milieu haut \n";
   if (MousePos[0] > -1 && MousePos[0] < -(1 / n) && MousePos[1] > (1 / n) &&
       MousePos[1] < 1) {
-    cellule.push_back(0);
-    cellule.push_back(0);
-    return cellule;
+    cellule.x = 0;
+    cellule.y = 0;
   }
   //"gauche haut\n";
   if (MousePos[0] > (1 / n) && MousePos[0] < 1 && MousePos[1] > (1 / n) &&
       MousePos[1] < 1) {
-    cellule.push_back(0);
-    cellule.push_back(2);
-    return cellule;
+    cellule.x = 0;
+    cellule.y = 2;
   }
   //"droit haut\n";
+  cellule.signe = this->getSigne();
+  std::cout << cellule.signe << " en [" << cellule.x << " , " << cellule.y
+            << "] \n";
+  // return cellule;
 }
-
-void joue(Joueur J, std::vector<double> MousePos) {
-  std::vector<double> posCellule = J.testPosition(MousePos);
-  switch (J.getSigne()) {
-  case 'x':
-    std::cout << "x en [" << posCellule[0] << " , " << posCellule[1] << "]";
-  case 'o':
-    std::cout << "o en [" << posCellule[0] << " , " << posCellule[1] << "]";
-  }
-}
+/*
+void Joueur::joue(std::vector<double> MousePos, board tab) {
+  cellule cell = this->getPosition(MousePos);
+  cell.signe = this->getSigne();
+  tab.cellules.push_back(cell);
+}*/
