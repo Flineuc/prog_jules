@@ -6,13 +6,9 @@
 #include <vector>
 
 struct cellule {
-  double x;
-  double y;
+  float x;
+  float y;
   char signe;
-};
-
-struct board {
-  std::vector<cellule> cellules;
 };
 
 class Joueur {
@@ -20,11 +16,13 @@ public:
   void setSigne(char lettre);
   char getSigne();
   Joueur joueur(const Joueur &J);
-  void joue(std::vector<double> MousePos, board tab);
-  void getPosition(std::vector<double> MousePos);
+  cellule getPosition(std::vector<double> MousePos, cellule tab[3][3]);
+  bool testWinner(cellule board[3][3]);
 
 private:
   char signe;
 };
+
+bool testEndGame(cellule board[3][3]);
 
 #endif

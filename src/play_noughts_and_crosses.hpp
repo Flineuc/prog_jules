@@ -1,2 +1,2 @@
 #pragma once
-void play_guess_the_number();
+void play_noughts_and_crosses();
