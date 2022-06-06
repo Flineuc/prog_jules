@@ -25,5 +25,8 @@ Lecon 2:
 
 Lecon 3:
 - Vector
-- Documentation
-- Use librairie
+- Minimum dependencies
+- Use librairies
+- Range based for loop
+- Testing
+- Lambda functions
