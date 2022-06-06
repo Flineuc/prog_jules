@@ -15,7 +15,7 @@ const std::string pick_a_random_word() {
 }
 
 void show_nb_lives(int nb_lives) {
-  std::cout << "\nTu as " << nb_lives << " vies." << std::endl;
+  std::cout << "Tu as " << nb_lives << " vies." << std::endl;
 }
 
 void reduce_nb_lives(int &nb_lives) { nb_lives--; }
@@ -97,7 +97,7 @@ void play_hangman() {
   }
   int nb_lives = 8;
 
-  std::cout << "J'ai choisi un mot. Trouve le !" << std::endl;
+  std::cout << "\nJ'ai choisi un mot. Trouve le !" << std::endl;
 
   while (player_is_alive(nb_lives) && !player_has_won(letters_guessed)) {
     show_nb_lives(nb_lives);

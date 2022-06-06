@@ -124,7 +124,3 @@ bool testEndGame(cellule board[3][3]) {
   }
   return false;
 }
-
-// void Joueur::draw(p6::Context ctx, char tab[3][3]) {
-
-//}

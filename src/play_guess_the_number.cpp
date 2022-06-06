@@ -10,7 +10,8 @@ int get_int_from_user() {
 
 void play_guess_the_number() {
   int value = rand(0, 20);
-  std::cout << "J'ai choisi un nombre entre 0 et 20. Trouve le !" << std::endl;
+  std::cout << "\nJ'ai choisi un nombre entre 0 et 20. Trouve le !"
+            << std::endl;
   std::cout << "Essaie :\n";
   int valueTested = get_int_from_user();
   while (value != valueTested) {
